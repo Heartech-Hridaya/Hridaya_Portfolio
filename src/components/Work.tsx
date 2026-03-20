@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useEffect, useState } from "react";
 import "./styles/Work.css";
 import WorkImage from "./WorkImage";
 import { FaGithub } from "react-icons/fa6";
@@ -20,7 +20,7 @@ const projects = [
     link: "#",
   },
   {
-    title: "Mini-ATM-Sim__v-2.0",
+    title: "Mini-ATM-Sim v2.0",
     category: "Simulated ATM System",
     tools: "Python, ReactJS",
     image: "/images/ATM.png",
@@ -66,86 +66,123 @@ const projects = [
 
 const Work = () => {
   const sliderRef = useRef<HTMLDivElement>(null);
+  const [activeIdx, setActiveIdx] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+  const autoScrollRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
-  const scrollLeft = () => {
-    if (sliderRef.current) {
-      sliderRef.current.scrollBy({ left: -380, behavior: "smooth" });
-    }
+  const CARD_WIDTH = 360; // px including gap
+
+  const scrollToIndex = (idx: number) => {
+    if (!sliderRef.current) return;
+    const clamped = Math.max(0, Math.min(idx, projects.length - 1));
+    sliderRef.current.scrollTo({ left: clamped * CARD_WIDTH, behavior: "smooth" });
+    setActiveIdx(clamped);
   };
 
-  const scrollRight = () => {
-    if (sliderRef.current) {
-      sliderRef.current.scrollBy({ left: 380, behavior: "smooth" });
+  const scrollLeft = () => scrollToIndex(activeIdx - 1);
+  const scrollRight = () => scrollToIndex(activeIdx + 1);
+
+  // auto-advance
+  useEffect(() => {
+    if (!isPaused) {
+      autoScrollRef.current = setInterval(() => {
+        setActiveIdx((prev) => {
+          const next = prev >= projects.length - 1 ? 0 : prev + 1;
+          if (sliderRef.current) {
+            sliderRef.current.scrollTo({ left: next * CARD_WIDTH, behavior: "smooth" });
+          }
+          return next;
+        });
+      }, 2800);
     }
-  };
+    return () => { if (autoScrollRef.current) clearInterval(autoScrollRef.current); };
+  }, [isPaused]);
 
   return (
     <div className="work-section" id="work">
       <div className="work-container section-container">
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: "40px" }}>
-          <h2 style={{ margin: 0 }}>
-            My <span>Work</span>
-          </h2>
-          <div style={{ display: "flex", gap: "10px" }}>
-            <button onClick={scrollLeft} style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", color: "white", padding: "12px", borderRadius: "50%", cursor: "pointer", transition: "0.3s", display: "flex", alignItems: "center", justifyContent: "center" }} onMouseEnter={(e) => e.currentTarget.style.background = "rgba(255,255,255,0.1)"} onMouseLeave={(e) => e.currentTarget.style.background = "rgba(255,255,255,0.05)"}>
+        {/* Header */}
+        <div className="work-header">
+          <div>
+            <p className="work-eyebrow">Portfolio</p>
+            <h2 className="work-title">My <span>Work</span></h2>
+          </div>
+          <div className="work-nav-btns">
+            <button
+              onClick={scrollLeft}
+              className="work-nav-btn"
+              disabled={activeIdx === 0}
+            >
               <FaChevronLeft />
             </button>
-            <button onClick={scrollRight} style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", color: "white", padding: "12px", borderRadius: "50%", cursor: "pointer", transition: "0.3s", display: "flex", alignItems: "center", justifyContent: "center" }} onMouseEnter={(e) => e.currentTarget.style.background = "rgba(255,255,255,0.1)"} onMouseLeave={(e) => e.currentTarget.style.background = "rgba(255,255,255,0.05)"}>
+            <span className="work-counter">{String(activeIdx + 1).padStart(2, "0")} / {String(projects.length).padStart(2, "0")}</span>
+            <button
+              onClick={scrollRight}
+              className="work-nav-btn"
+              disabled={activeIdx === projects.length - 1}
+            >
               <FaChevronRight />
             </button>
           </div>
         </div>
 
-        <div 
-          className="work-slider" 
+        {/* Slider */}
+        <div
+          className="work-slider"
           ref={sliderRef}
-          style={{
-            display: "flex",
-            gap: "30px",
-            width: "100%",
-            paddingTop: "10px",
-            paddingBottom: "30px",
-            overflowX: "auto",
-            scrollSnapType: "x mandatory",
-            scrollbarWidth: "none",
-            msOverflowStyle: "none"
-          }}
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
         >
-          <style>{`.work-slider::-webkit-scrollbar { display: none; }`}</style>
           {projects.map((project, index) => (
-            <div className="work-card" key={index} style={{
-              background: "rgba(255, 255, 255, 0.03)",
-              border: "1px solid rgba(255, 255, 255, 0.08)",
-              borderRadius: "16px",
-              padding: "24px",
-              display: "flex",
-              flexDirection: "column",
-              gap: "20px",
-              transition: "transform 0.3s, background 0.3s",
-              flex: "0 0 320px",
-              scrollSnapAlign: "start"
-            }}>
-              <div className="work-card-image" style={{ borderRadius: "8px", overflow: "hidden", aspectRatio: "16/9", display: "flex", alignItems: "center", justifyContent: "center", background: "rgba(0,0,0,0.5)" }}>
+            <div
+              className={`work-card ${index === activeIdx ? "work-card-active" : ""}`}
+              key={index}
+              onClick={() => scrollToIndex(index)}
+            >
+              {/* Glow */}
+              <div className="work-card-glow" />
+
+              {/* Image */}
+              <div className="work-card-image">
                 <WorkImage image={project.image} alt={project.title} />
-              </div>
-
-              <div className="work-card-content" style={{ display: "flex", flexDirection: "column", flexGrow: 1 }}>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "8px" }}>
-                  <h4 style={{ fontSize: "24px", margin: 0, fontWeight: 500 }}>{project.title}</h4>
-                  <span style={{ fontSize: "14px", opacity: 0.5, fontWeight: "bold" }}>0{index + 1}</span>
-                </div>
-                <p style={{ color: "#adacac", margin: "0 0 16px 0", fontSize: "15px" }}>{project.category}</p>
-
-                <div style={{ marginTop: "auto" }}>
-                  <span style={{ fontSize: "12px", textTransform: "uppercase", letterSpacing: "1px", opacity: 0.6 }}>Tools & Features</span>
-                  <p style={{ color: "#adacac", fontSize: "14px", margin: "6px 0 20px 0" }}>{project.tools}</p>
-
-                  <a href={project.link} target="_blank" rel="noopener noreferrer" style={{ display: "inline-flex", alignItems: "center", gap: "8px", background: "rgba(94, 234, 212, 0.1)", color: "var(--accentColor)", padding: "10px 20px", borderRadius: "8px", fontSize: "14px", fontWeight: "bold", border: "1px solid rgba(94, 234, 212, 0.2)", transition: "all 0.3s" }}>
-                    View Repo <FaGithub size={18} />
+                <div className="work-card-overlay">
+                  <a
+                    href={project.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="work-card-repo-btn"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <FaGithub size={18} /> View Repo
                   </a>
                 </div>
               </div>
+
+              {/* Content */}
+              <div className="work-card-content">
+                <div className="work-card-meta">
+                  <span className="work-card-num">0{index + 1}</span>
+                  <span className="work-card-category">{project.category}</span>
+                </div>
+                <h4 className="work-card-title">{project.title}</h4>
+                <div className="work-card-tools">
+                  {project.tools.split(", ").map((t) => (
+                    <span key={t} className="work-card-tag">{t}</span>
+                  ))}
+                </div>
+              </div>
             </div>
+          ))}
+        </div>
+
+        {/* Dot Indicators */}
+        <div className="work-dots">
+          {projects.map((_, i) => (
+            <button
+              key={i}
+              className={`work-dot ${i === activeIdx ? "work-dot-active" : ""}`}
+              onClick={() => scrollToIndex(i)}
+            />
           ))}
         </div>
       </div>
