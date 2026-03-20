@@ -35,7 +35,7 @@ const Contact = () => {
           </div>
           
           <div className="contact-right">
-            <form action="https://formsubmit.co/hridayamdr2007@gmail.com" method="POST" style={{ display: 'flex', flexDirection: 'column', gap: '20px', width: '100%' }}>
+            <form action="https://formsubmit.co/afad857ac48a727c679608ddfad91563" method="POST" style={{ display: 'flex', flexDirection: 'column', gap: '20px', width: '100%' }}>
               <input type="text" name="name" placeholder="Your Name" required style={{ padding: '15px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: 'white', borderRadius: '8px', fontSize: '16px', outline: 'none' }} />
               <input type="email" name="email" placeholder="Your Email" required style={{ padding: '15px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: 'white', borderRadius: '8px', fontSize: '16px', outline: 'none' }} />
               <input type="text" name="_subject" placeholder="Subject" required style={{ padding: '15px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: 'white', borderRadius: '8px', fontSize: '16px', outline: 'none' }} />
