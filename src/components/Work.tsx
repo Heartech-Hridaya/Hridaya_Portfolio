@@ -51,14 +51,14 @@ const projects = [
     category: "Machine Learning Model",
     tools: "Python, Machine Learning, Pandas",
     image: "/images/music.png",
-    link: "#",
+    link: "https://github.com/Heartech-Hridaya/Music-Recommender-System-Using-Python",
   },
   {
     title: "Spam Mail Prediction",
     category: "Machine Learning Model",
     tools: "Python, NLP, Scikit-learn",
     image: "/images/spam.png",
-    link: "#",
+    link: "https://spam-mail-prediction-by-hridaya.streamlit.app/",
   },
 ];
 

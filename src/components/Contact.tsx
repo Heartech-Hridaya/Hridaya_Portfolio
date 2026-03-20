@@ -35,10 +35,11 @@ const Contact = () => {
           </div>
           
           <div className="contact-right">
-            <form action="mailto:hridayamdr2007@gmail.com" method="post" encType="text/plain" style={{ display: 'flex', flexDirection: 'column', gap: '20px', width: '100%' }}>
+            <form action="https://formsubmit.co/hridayamdr2007@gmail.com" method="POST" style={{ display: 'flex', flexDirection: 'column', gap: '20px', width: '100%' }}>
               <input type="text" name="name" placeholder="Your Name" required style={{ padding: '15px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: 'white', borderRadius: '8px', fontSize: '16px', outline: 'none' }} />
-              <input type="text" name="subject" placeholder="Subject" required style={{ padding: '15px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: 'white', borderRadius: '8px', fontSize: '16px', outline: 'none' }} />
-              <textarea name="body" placeholder="Your Message" rows={5} required style={{ padding: '15px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: 'white', borderRadius: '8px', fontSize: '16px', outline: 'none', resize: 'vertical' }}></textarea>
+              <input type="email" name="email" placeholder="Your Email" required style={{ padding: '15px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: 'white', borderRadius: '8px', fontSize: '16px', outline: 'none' }} />
+              <input type="text" name="_subject" placeholder="Subject" required style={{ padding: '15px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: 'white', borderRadius: '8px', fontSize: '16px', outline: 'none' }} />
+              <textarea name="message" placeholder="Your Message" rows={5} required style={{ padding: '15px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: 'white', borderRadius: '8px', fontSize: '16px', outline: 'none', resize: 'vertical' }}></textarea>
               <button type="submit" data-cursor="disable" style={{ background: 'var(--accentColor)', color: '#0a0e17', border: 'none', padding: '15px 30px', borderRadius: '8px', fontSize: '16px', fontWeight: 'bold', cursor: 'pointer', transition: '0.3s' }}>
                 Send Message
               </button>
