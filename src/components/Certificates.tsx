@@ -1,4 +1,5 @@
-import { FaAward, FaExternalLinkAlt } from "react-icons/fa";
+import { useRef } from "react";
+import { FaAward, FaExternalLinkAlt, FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
 const certs = [
   { name: "Software Fellowship", file: "/certificates/SoftwareFellowship.png", type: "image", category: "General" },
@@ -30,17 +31,52 @@ const certs = [
 ];
 
 const Certificates = () => {
+  const sliderRef = useRef<HTMLDivElement>(null);
+
+  const scrollLeft = () => {
+    if (sliderRef.current) {
+      sliderRef.current.scrollBy({ left: -350, behavior: "smooth" });
+    }
+  };
+
+  const scrollRight = () => {
+    if (sliderRef.current) {
+      sliderRef.current.scrollBy({ left: 350, behavior: "smooth" });
+    }
+  };
+
   return (
     <div className="section-container" id="certificates" style={{ margin: "100px auto", padding: "0 20px" }}>
-      <h2 style={{ fontSize: "clamp(40px, 6vw, 70px)", fontWeight: 500, margin: "0 0 50px 0" }}>
-        My <span>Certificates</span>
-      </h2>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: "40px", flexWrap: "wrap", gap: "20px" }}>
+        <h2 style={{ fontSize: "clamp(30px, 6vw, 70px)", fontWeight: 500, margin: 0 }}>
+          My <span>Certificates</span>
+        </h2>
+        <div style={{ display: "flex", gap: "10px" }}>
+          <button onClick={scrollLeft} style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", color: "white", padding: "12px", borderRadius: "50%", cursor: "pointer", transition: "0.3s", display: "flex", alignItems: "center", justifyContent: "center" }} onMouseEnter={(e) => e.currentTarget.style.background = "rgba(255,255,255,0.1)"} onMouseLeave={(e) => e.currentTarget.style.background = "rgba(255,255,255,0.05)"}>
+            <FaChevronLeft />
+          </button>
+          <button onClick={scrollRight} style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", color: "white", padding: "12px", borderRadius: "50%", cursor: "pointer", transition: "0.3s", display: "flex", alignItems: "center", justifyContent: "center" }} onMouseEnter={(e) => e.currentTarget.style.background = "rgba(255,255,255,0.1)"} onMouseLeave={(e) => e.currentTarget.style.background = "rgba(255,255,255,0.05)"}>
+            <FaChevronRight />
+          </button>
+        </div>
+      </div>
 
-      <div style={{
-        display: "grid",
-        gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
-        gap: "30px",
-      }}>
+      <div 
+        className="certificates-slider"
+        ref={sliderRef}
+        style={{
+          display: "flex",
+          gap: "30px",
+          width: "100%",
+          paddingTop: "10px",
+          paddingBottom: "30px",
+          overflowX: "auto",
+          scrollSnapType: "x mandatory",
+          scrollbarWidth: "none",
+          msOverflowStyle: "none"
+        }}
+      >
+        <style>{`.certificates-slider::-webkit-scrollbar { display: none; }`}</style>
         {certs.map((cert, index) => (
           <a
             key={index}
@@ -58,7 +94,9 @@ const Certificates = () => {
               textDecoration: "none",
               color: "inherit",
               transition: "transform 0.3s, background 0.3s",
-              position: "relative"
+              position: "relative",
+              flex: "0 0 300px",
+              scrollSnapAlign: "start"
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.transform = "translateY(-5px)";

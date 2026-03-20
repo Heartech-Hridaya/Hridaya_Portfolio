@@ -395,3 +395,37 @@ h2.landing-info-h2 {
     font-size: 75px;
   }
 }
+
+@keyframes floatUpMobile {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .landing-intro h2 {
+    font-size: 16px;
+  }
+  .landing-intro h1 {
+    font-size: 22px;
+    line-height: 24px;
+  }
+  .landing-info h3 {
+    font-size: 16px;
+  }
+  .landing-info h2 {
+    font-size: 24px;
+    line-height: 28px;
+  }
+  h2.landing-info-h2 {
+    font-size: 30px;
+  }
+  .landing-intro, .landing-info {
+    animation: floatUpMobile 1s ease-out forwards;
+  }
+}

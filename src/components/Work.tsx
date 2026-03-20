@@ -1,6 +1,8 @@
+import { useRef } from "react";
 import "./styles/Work.css";
 import WorkImage from "./WorkImage";
 import { FaGithub } from "react-icons/fa6";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
 const projects = [
   {
@@ -63,20 +65,53 @@ const projects = [
 ];
 
 const Work = () => {
+  const sliderRef = useRef<HTMLDivElement>(null);
+
+  const scrollLeft = () => {
+    if (sliderRef.current) {
+      sliderRef.current.scrollBy({ left: -380, behavior: "smooth" });
+    }
+  };
+
+  const scrollRight = () => {
+    if (sliderRef.current) {
+      sliderRef.current.scrollBy({ left: 380, behavior: "smooth" });
+    }
+  };
+
   return (
     <div className="work-section" id="work">
       <div className="work-container section-container">
-        <h2>
-          My <span>Work</span>
-        </h2>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: "40px" }}>
+          <h2 style={{ margin: 0 }}>
+            My <span>Work</span>
+          </h2>
+          <div style={{ display: "flex", gap: "10px" }}>
+            <button onClick={scrollLeft} style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", color: "white", padding: "12px", borderRadius: "50%", cursor: "pointer", transition: "0.3s", display: "flex", alignItems: "center", justifyContent: "center" }} onMouseEnter={(e) => e.currentTarget.style.background = "rgba(255,255,255,0.1)"} onMouseLeave={(e) => e.currentTarget.style.background = "rgba(255,255,255,0.05)"}>
+              <FaChevronLeft />
+            </button>
+            <button onClick={scrollRight} style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", color: "white", padding: "12px", borderRadius: "50%", cursor: "pointer", transition: "0.3s", display: "flex", alignItems: "center", justifyContent: "center" }} onMouseEnter={(e) => e.currentTarget.style.background = "rgba(255,255,255,0.1)"} onMouseLeave={(e) => e.currentTarget.style.background = "rgba(255,255,255,0.05)"}>
+              <FaChevronRight />
+            </button>
+          </div>
+        </div>
 
-        <div className="work-grid" style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
-          gap: "40px",
-          width: "100%",
-          paddingTop: "20px"
-        }}>
+        <div 
+          className="work-slider" 
+          ref={sliderRef}
+          style={{
+            display: "flex",
+            gap: "30px",
+            width: "100%",
+            paddingTop: "10px",
+            paddingBottom: "30px",
+            overflowX: "auto",
+            scrollSnapType: "x mandatory",
+            scrollbarWidth: "none",
+            msOverflowStyle: "none"
+          }}
+        >
+          <style>{`.work-slider::-webkit-scrollbar { display: none; }`}</style>
           {projects.map((project, index) => (
             <div className="work-card" key={index} style={{
               background: "rgba(255, 255, 255, 0.03)",
@@ -86,7 +121,9 @@ const Work = () => {
               display: "flex",
               flexDirection: "column",
               gap: "20px",
-              transition: "transform 0.3s, background 0.3s"
+              transition: "transform 0.3s, background 0.3s",
+              flex: "0 0 320px",
+              scrollSnapAlign: "start"
             }}>
               <div className="work-card-image" style={{ borderRadius: "8px", overflow: "hidden", aspectRatio: "16/9", display: "flex", alignItems: "center", justifyContent: "center", background: "rgba(0,0,0,0.5)" }}>
                 <WorkImage image={project.image} alt={project.title} />

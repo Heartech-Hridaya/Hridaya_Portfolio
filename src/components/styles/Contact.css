@@ -93,6 +93,14 @@ a.contact-social {
 }
 
 @media only screen and (max-width: 900px) {
+  .contact-section h3 {
+    font-size: 36px;
+  }
+
+  .contact-box h2 {
+    font-size: 16px;
+  }
+
   .contact-flex {
     grid-template-columns: 1fr;
     gap: 40px;
@@ -113,5 +121,17 @@ a.contact-social {
 
   .contact-container {
     width: calc(100% - 25px);
+  }
+}
+
+@media only screen and (max-width: 550px) {
+  .contact-section h3 {
+    font-size: 28px;
+  }
+  .contact-box h2 {
+    font-size: 14px;
+  }
+  a.contact-social {
+    font-size: 18px;
   }
 }

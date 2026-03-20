@@ -16,7 +16,7 @@
   max-width: calc(100% - 15px);
 }
 .about-me h3 {
-  font-size: 25px;
+  font-size: 18px;
   text-transform: uppercase;
   letter-spacing: 7px;
   font-weight: 400;
@@ -24,10 +24,27 @@
 }
 
 .about-me p {
-  font-size: 33px;
+  font-size: 20px;
   font-weight: 600;
-  line-height: 36px;
+  line-height: 28px;
   letter-spacing: 1px;
+}
+
+@keyframes fadeUpMobile {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  .about-section.in-view {
+    animation: fadeUpMobile 0.8s ease-out forwards;
+  }
 }
 
 @media only screen and (min-width: 600px) {
@@ -43,6 +60,13 @@
   }
   .about-section {
     opacity: 1;
+  }
+  .about-me h3 {
+    font-size: 25px;
+  }
+  .about-me p {
+    font-size: 33px;
+    line-height: 36px;
   }
 }
 @media only screen and (min-width: 1025px) {

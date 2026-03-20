@@ -135,3 +135,9 @@ body {
     font-size: 40px;
   }
 }
+
+@media screen and (max-width: 550px) {
+  .techstack h2 {
+    font-size: 28px;
+  }
+}
